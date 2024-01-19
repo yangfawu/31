@@ -1,0 +1,794 @@
+body {
+    background-color: #F2DDA4;
+    font-family: 'Yusei Magic', sans-serif;
+    margin: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    user-select: none;
+}
+
+#title {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    h1, p {
+        margin: 0;
+        text-align: center;
+    }
+    h1 {
+        font-size: 60px;
+    }
+    p {
+        font-size: 25px;
+    }
+}
+
+#auth {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    border-radius: 10px;
+    border-bottom: 5px solid rgba(0,0,0,0.2);
+    background-color: #f5f5f5;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 5px;
+    width: 100%;
+    min-width: 300px;
+    max-width: 450px;
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        input {
+            font-family: 'Yusei Magic', sans-serif;
+            font-size: 25px;
+            outline: none;
+            border: none;
+            padding-left: 10px;
+            text-overflow: ellipsis;
+            transition: background-color 0.2s;
+            background-color: rgba(0,0,0,0.03);
+            &:hover {
+                background-color: rgba(0,0,0,0.01);
+            }
+            &:focus {
+                background-color: white;
+            }
+        }
+    }
+    p {
+        margin: 0;
+        font-size: 15px;
+    }
+    div {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        button {
+            flex: 1;
+            font-family: 'Yusei Magic', sans-serif;
+            font-size: 20px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            padding: 5px;
+            background-color: #c9e7f3;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+            &:not(:disabled) {
+                &:focus {
+                    background-color: #89aab8;
+                }
+                &:hover {
+                    background-color: #b4deee;
+                }
+                &:active {
+                    background-color: #c9f2f3;
+                }
+            }
+            &:disabled {
+                background-color: #dfdfdf;
+            }
+        }
+    }
+}
+
+#board {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    justify-content: center;
+    align-items: flex-start;
+    .profile, .queue {
+        flex: 1;
+        padding: 20px;     
+        width: 100%;
+        max-width: 450px;
+        min-width: 400px;
+    }
+    .profile {
+        border-radius: 10px;
+        border-bottom: 5px solid rgba(0,0,0,0.2);
+        background-color: #f5f5f5;
+        h1 {
+            margin: 0;
+            font-weight: 400;
+            font-size: 30px;
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            align-items: baseline;
+            gap: 10px;
+            span:last-of-type {
+                font-size: 15px;
+                &::before {
+                    content: "Lv.";
+                }
+            }
+        }
+        .exp {
+            background-color: #dbdbdb;
+            border-radius: 10px;
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            align-items: stretch;
+            div {
+                background-color: #9dff9d;
+                border-radius: 10px;
+                min-width: 20px;
+                width: 100%;
+                position: absolute;
+                top: 50%;
+                left: 0;
+                transform: translateY(-50%);
+                height: 100%;
+                z-index: 1;
+            }
+            span {
+                font-size: 15px;
+                &:first-of-type {
+                    visibility: hidden;
+                }
+                &:last-of-type {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    z-index: 2;
+                    &:after {
+                        content: "/1000";
+                    }
+                }
+            }
+        }
+        .stats {
+            margin-top: 10px;
+            font-size: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            &::-webkit-scrollbar {
+                width: 10px;
+            }
+            &::-webkit-scrollbar-track {
+                background: transparent;
+            }
+            &::-webkit-scrollbar-thumb {
+                background-color: blue;
+                border-radius: 20px;
+                border: 4px solid #f5f5f5;
+            }
+            div {
+                padding: 2px 0;
+                border-bottom: 1px solid rgba(0,0,0,0.2);
+                display: flex;
+                flex-direction: row;
+                align-items: stretch;
+                justify-content: space-between;
+            }
+        }
+        .auth {
+            margin-top: 10px;
+            button {
+                font-family: 'Yusei Magic', sans-serif;
+                font-size: 16px;
+                cursor: pointer;
+                border: none;
+                outline: none;
+                padding: 5px 10px;
+                background-color: #c9e7f3;
+                border-radius: 5px;
+                transition: background-color 0.2s;
+                &:focus-visible {
+                    background-color: #89aab8;
+                }
+                &:hover {
+                    background-color: #b4deee;
+                }
+                &:active {
+                    background-color: #c9f2f3;
+                }
+            }
+        }
+    }
+    .queue {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        h1 {
+            margin: 0;
+            font-weight: 400;
+            font-size: 30px;
+        }
+        &[data-stage = "default"] {
+            div[data-stage = "default"] {
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                button {
+                    font-family: 'Yusei Magic', sans-serif;
+                    width: 100%;
+                    font-size: 20px;
+                    cursor: pointer;
+                    border: none;
+                    outline: none;
+                    padding: 5px 10px;
+                    background-color: #c9e7f3;
+                    border-radius: 5px;
+                    transition: background-color 0.2s;
+                    &:focus-visible {
+                        background-color: #89aab8;
+                    }
+                    &:hover {
+                        background-color: #b4deee;
+                    }
+                    &:active {
+                        background-color: #c9f2f3;
+                    }
+                }
+            }
+            div:not([data-stage = "default"]) {
+                display: none;
+            }
+        }
+        &[data-stage = "make"] {
+            div[data-stage = "make"] {
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                justify-content: center;
+                align-items: stretch;
+                gap: 5px;
+                input {
+                    font-family: 'Yusei Magic', sans-serif;
+                    font-size: 25px;
+                    outline: none;
+                    border: none;
+                    padding-left: 10px;
+                    text-overflow: ellipsis;
+                    transition: background-color 0.2s;
+                    background-color: #f5f5f5;
+                    &:hover {
+                        background-color: #f5f5f58a;
+                    }
+                    &:focus {
+                        background-color: white;
+                    }
+                }
+                p {
+                    margin: 0;
+                    font-size: 15px;
+                }
+                section {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 5px;
+                    margin-top: 5px;
+                    button {
+                        flex: 1;
+                        font-family: 'Yusei Magic', sans-serif;
+                        font-size: 20px;
+                        cursor: pointer;
+                        border: none;
+                        outline: none;
+                        padding: 5px;
+                        background-color: #c9e7f3;
+                        border-radius: 5px;
+                        transition: background-color 0.2s;
+                        &:not(:disabled) {
+                            &:focus {
+                                background-color: #89aab8;
+                            }
+                            &:hover {
+                                background-color: #b4deee;
+                            }
+                            &:active {
+                                background-color: #c9f2f3;
+                            }
+                        }
+                        &:disabled {
+                            background-color: #dfdfdf;
+                        }
+                    }
+                }
+            }
+            div:not([data-stage = "make"]) {
+                display: none;
+            }
+        }
+        &[data-stage = "join"] {
+            div[data-stage = "join"] {
+                display: flex;
+                width: 100%;
+                flex-direction: column;
+                justify-content: center;
+                align-items: stretch;
+                gap: 5px;
+                input {
+                    font-family: 'Yusei Magic', sans-serif;
+                    font-size: 25px;
+                    outline: none;
+                    border: none;
+                    padding-left: 10px;
+                    text-overflow: ellipsis;
+                    transition: background-color 0.2s;
+                    background-color: #f5f5f5;
+                    &:hover {
+                        background-color: #f5f5f58a;
+                    }
+                    &:focus {
+                        background-color: white;
+                    }
+                }
+                p {
+                    margin: 0;
+                    font-size: 15px;
+                }
+                section {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 5px;
+                    margin-top: 5px;
+                    button {
+                        flex: 1;
+                        font-family: 'Yusei Magic', sans-serif;
+                        font-size: 20px;
+                        cursor: pointer;
+                        border: none;
+                        outline: none;
+                        padding: 5px;
+                        background-color: #c9e7f3;
+                        border-radius: 5px;
+                        transition: background-color 0.2s;
+                        &:not(:disabled) {
+                            &:focus {
+                                background-color: #89aab8;
+                            }
+                            &:hover {
+                                background-color: #b4deee;
+                            }
+                            &:active {
+                                background-color: #c9f2f3;
+                            }
+                        }
+                        &:disabled {
+                            background-color: #dfdfdf;
+                        }
+                    }
+                }
+            }
+            div:not([data-stage = "join"]) {
+                display: none;
+            }
+        }
+    }
+}
+
+#room {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    p {
+        margin: 0;
+        font-size: 30px;
+    }
+    h1 {
+        margin: 0;
+        font-weight: 400;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        span {
+            user-select: text;
+        }
+    }
+}
+
+#game-message-ui {
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 80vw;
+    min-height: 100px;
+    p {
+        margin: 0;
+        font-weight: 400;
+        text-align: center;
+        font-size: 32px;
+    }
+}
+
+// <section id="game-pile-ui">
+//     <div class="pile">
+//         <div class="cards">
+//             <img src="" alt="">
+//             <img src="" alt="">
+//         </div>
+//         <h1>Deck</h1>
+//     </div>
+//     <div class="pile">
+//         <div class="cards">
+//             <img src="" alt="">
+//             <img src="" alt="">
+//         </div>
+//         <h1>Discard</h1>
+//     </div>
+// </section>
+#game-pile-ui {
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    .pile {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .cards {
+            position: relative;
+            background-color: rgba(0,0,0,0.03);
+            border-radius: 2px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            img {
+                width: 7vw;
+                height: auto;
+                cursor: pointer;
+                &:last-of-type {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+            }
+        }
+        h1 {
+            margin: 0;
+            font-weight: 400;
+            text-align: center;
+            font-size: 24px;
+        }
+    }
+}
+
+// <section id="game-hand-ui" data-selected-card="INT:rank,STRING:suit">
+// 	<p>You're eliminated.</p>
+// 	<!-- p:only-child -->
+// 	<img src="" alt="">
+// 	<img src="" alt="">
+// 	<img src="" alt="">
+// </section>
+#game-hand-ui {
+    position: absolute;
+    left: 50%;
+    bottom: 10px;
+    max-width: 45%;
+    width: 100%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    p {
+        margin: 0;
+        text-align: center;
+        font-size: 24px;
+        width: 100%;
+        padding: 10px;
+        &:not(:only-child) {
+            display: none;
+        }
+        &:only-child {
+            display: block;
+        }
+        margin-bottom: 30px;
+    }
+    img {
+        width: calc(20%);
+        height: auto;
+        cursor: pointer;
+    }
+}
+
+// <section id="game-option-ui">
+// 	<div class="message">
+// 		:min-height
+// 	</div>
+// 	<div class="options">
+// 		<button>Draw</button>
+// 		<button>Discard</button>
+// 		<button>Knock</button>
+// 	</div>
+// </section>
+#game-option-ui {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    border-bottom: 5px solid rgba(0,0,0,0.2);
+    background-color: #f5f5f5;
+    gap: 10px;
+    width: 100%;
+    max-width: 25%;
+    .message {
+        flex: 1;
+        padding: 10px;
+        font-size: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        background-color: #dddddd;
+        max-height: 150px;
+        overflow-y: auto;
+        &::-webkit-scrollbar {
+            width: 10px;
+        }
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: blue;
+            border-radius: 20px;
+            border: 4px solid #dddddd;
+        }
+    }
+    .options {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        flex: 1;
+        button {
+            flex: 1;
+            font-family: 'Yusei Magic', sans-serif;
+            font-size: 20px;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            padding: 5px;
+            background-color: #c9e7f3;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+            &:not(:disabled) {
+                &:focus {
+                    background-color: #89aab8;
+                }
+                &:hover {
+                    background-color: #b4deee;
+                }
+                &:active {
+                    background-color: #c9f2f3;
+                }
+            }
+            &:disabled {
+                background-color: #dfdfdf;
+            }
+        }
+    }
+}
+
+// <section id="game-players-ui">
+// 	<h1>Players</h1>
+// 	<div class="container">
+// 		:grid
+// 		<div class="player">
+// 			<span>Id</span>
+// 			<span>
+// 				<img src="" alt="x">
+// 				<img src="" alt="x">
+// 				<img src="" alt="x">
+// 			</span>
+// 			<span>?</span>
+// 		</div>
+// 	</div>
+// </section>
+#game-players-ui {
+    position: absolute;
+    top: 40%;
+    left: 10px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 150px;
+    h1 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 400;
+        width: 100%;
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: stretch;
+        align-items: stretch;
+        .player {
+            display: grid;
+            grid-template-columns: 1fr 75px 30px;
+            gap: 10px;
+            border-bottom: 3px solid rgba(0,0,0,0.2);
+            border-bottom-right-radius: 10px;
+            border-top-right-radius: 10px;
+            background-color: #f5f5f5;
+            padding: 3px 10px;
+            span {
+                display: block;
+                font-size: 22px;
+                &:first-of-type {
+                    width: 100px;
+                    text-align: left;
+                    text-overflow: ellipsis;
+                }
+                &:nth-of-type(2) {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
+                    img {
+                        width: 24px;
+                        height: auto;
+                        // filter: invert(65%);
+                        filter: invert(85%);
+                        &.striked {
+                            filter: none;
+                        }
+                    }
+                }
+                &:last-of-type {
+                    text-align: left;
+                }
+            }
+        }
+    }
+}
+
+// <section id="game-order-ui">
+// 	<h1>Turn:before #</h1>
+// 	<div class="container">
+// 		<div class="player">
+// 			<img src="" alt="K">
+// 			<span>Id can ellipse if overflow</span>
+// 		</div>
+// 	</div>
+// </section>
+#game-order-ui {
+    position: absolute;
+    top: 40%;
+    right: 10px;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    min-width: 150px;
+    h1 {
+        margin: 0;
+        font-size: 32px;
+        font-weight: 400;
+        width: 100%;
+        text-align: right;
+        &::before {
+            content: "Turn ";
+        }
+    }
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: stretch;
+        align-items: stretch;
+        .player {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: left;
+            gap: 5px;
+            border-bottom: 3px solid rgba(0,0,0,0.2);
+            border-bottom-left-radius: 10px;
+            border-top-left-radius: 10px;
+            background-color: #f5f5f5;
+            padding: 3px 10px;
+            img {
+                width: auto;
+                height: 22px;
+                filter: invert(85%);
+                padding-left: 5px;
+                &.knocked {
+                    filter: none;
+                }
+            }
+            span {
+                font-size: 22px;
+                flex: 1;
+                text-overflow: ellipsis;
+            }
+            &:nth-of-type(1) {
+                background-color: #c5ffae;
+                &::before {
+                    content: "1";
+                }
+            }
+            &:nth-of-type(2) {
+                &::before {
+                    content: "2";
+                }
+            }
+            &:nth-of-type(3) {
+                &::before {
+                    content: "3";
+                }
+            }
+            &:nth-of-type(4) {
+                &::before {
+                    content: "4";
+                }
+            }
+        }
+    }
+}
